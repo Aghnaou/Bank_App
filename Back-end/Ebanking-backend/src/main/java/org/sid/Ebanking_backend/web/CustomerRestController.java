@@ -2,6 +2,7 @@ package org.sid.Ebanking_backend.web;
 
 
 import org.sid.Ebanking_backend.Entities.Customer;
+import org.sid.Ebanking_backend.dtos.BankAccountDTO;
 import org.sid.Ebanking_backend.dtos.CustomerDTO;
 import org.sid.Ebanking_backend.exceptions.CustomerNotFoundException;
 import org.sid.Ebanking_backend.services.BankAccountService;
@@ -31,6 +32,11 @@ public class CustomerRestController {
     @GetMapping("/customers/{id}")
     public CustomerDTO getCustomer(@PathVariable(name = "id") Long customerId) throws CustomerNotFoundException {
       return bankAccountService.getCustomer(customerId);
+    }
+
+    @GetMapping("/customers/{id}/accounts")
+    public List<BankAccountDTO> getCustomerAccounts(@PathVariable Long id) throws CustomerNotFoundException {
+        return bankAccountService.getAccountsByCustomerId(id);
     }
 
     @PostMapping("/customers")

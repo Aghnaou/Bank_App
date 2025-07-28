@@ -232,4 +232,21 @@ public class BankAccountServiceImpl implements BankAccountService {
         return bankAccountMapper.fromCustomer(customer);
     }
 
+    @Override
+    public List<BankAccountDTO> getAccountsByCustomerId(Long customerId) throws CustomerNotFoundException {
+        Customer customer = customarRepository.findById(customerId)
+                .orElseThrow(() -> new CustomerNotFoundException("Customer not found with ID: " + customerId));
+
+        List<BankAccount> accounts = bankAccountRepository.findByCustomerId(customerId);
+
+        return accounts.stream().map(account -> {
+            if (account instanceof SavingAccount) {
+                return bankAccountMapper.fromSavingAccount((SavingAccount) account);
+            } else {
+                return bankAccountMapper.fromCurrentAccount((CurrentAccount) account);
+            }
+        }).collect(Collectors.toList());
+    }
+
+
 }
