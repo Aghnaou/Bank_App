@@ -27,6 +27,11 @@ export class AccountsService {
     );
   }
 
+  public getAccountsByCustomer(customerId: number): Observable<any[]> {
+    return this.http.get<any[]>(`http://localhost:8085/customers/${customerId}/accounts`);
+  }
+  
+
   public debit(accountId: string, amount: number, description: string) {
     let data = {
       id: accountId,

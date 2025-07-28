@@ -1,3 +1,40 @@
-<div class="container">
-  {{ customerId }}
+<div class="container mt-4">
+  <div class="mb-4">
+    <h3>Customer Info</h3>
+    <ul class="list-group">
+      <li class="list-group-item"><strong>ID:</strong> {{ customer.id }}</li>
+      <li class="list-group-item"><strong>Name:</strong> {{ customer.name }}</li>
+      <li class="list-group-item"><strong>Email:</strong> {{ customer.email }}</li>
+    </ul>
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="accounts.length > 0; else noAccounts">
+    <h4>Accounts</h4>
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+      <div *ngFor="let account of accounts" class="col">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title text-primary">{{ account.type }}</h5>
+            <p class="card-text">
+              <strong>Account ID:</strong> {{ account.id }}<br />
+              <strong>Balance:</strong> {{ account.balance | currency }}<br />
+              <strong>Status:</strong> {{ account.status }}<br />
+              <strong>Created At:</strong> {{ account.createdAt | date }}
+            </p>
+            <button class="btn btn-outline-secondary btn-sm">
+              View Operations
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noAccounts>
+    <div class="alert alert-info">No accounts found for this customer.</div>
+  </ng-template>
 </div>
